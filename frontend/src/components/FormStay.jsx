@@ -34,7 +34,7 @@ export default function FormStay() {
     setLoading(true);
 
     try {
-      const response = await axios.post(`${apiUrl}/api/send`, data, { timeout: 15000 });
+      const response = await axios.post(`${apiUrl}/api/send`, data);
 
       console.log("Réponse du backend :", response.data);
       setMessage("Email envoyé avec succès !");
