@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -34,7 +34,9 @@ export default function FormStay() {
     setLoading(true);
 
     try {
-      await axios.post(`${apiUrl}/send-email`, data, { timeout: 15000 });
+      const response = await axios.post(`${apiUrl}/api/send`, data, { timeout: 15000 });
+
+      console.log("Réponse du backend :", response.data);
       setMessage("Email envoyé avec succès !");
     } catch (err) {
       console.error(err);
