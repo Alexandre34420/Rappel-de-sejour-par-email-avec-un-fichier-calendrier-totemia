@@ -3,7 +3,7 @@ import nodemailer from "nodemailer";
 export default async function sendMail({ to, subject, text, icsFile }) {
   // Création du transporteur SMTP
   const transporter = nodemailer.createTransport({
-    service: "gmail", // Tu peux changer si tu veux un autre service
+    service: "gmail", 
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS
@@ -23,5 +23,5 @@ export default async function sendMail({ to, subject, text, icsFile }) {
         contentType: "text/calendar"
       }
     ]
-  });
-}
+  }); 
+} 
