@@ -61,7 +61,9 @@ app.post("/api/send", async (req, res) => {
   }
 });
 
-app.listen(process.env.PORT, () => {
-  console.log(`🚀 Backend running on port ${process.env.PORT}`);
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`🚀 Backend running on port ${PORT}`);
 });
 
