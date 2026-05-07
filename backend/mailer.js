@@ -1,18 +1,16 @@
 import nodemailer from "nodemailer";
 
 export default async function sendMail({ to, subject, text, icsFile }) {
-  // Création du transporteur SMTP
+  // ✅ Création du transporteur SMTP vers MailHog
   const transporter = nodemailer.createTransport({
-    service: "gmail", 
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS
-    }
+    host: process.env.EMAIL_HOST || "mailhog", // MailHog est défini dans docker-compose
+    port: process.env.EMAIL_PORT || 1025,      // Port SMTP de MailHog
+    secure: false,                             // Pas de TLS pour MailHog
   });
 
-  // Envoi de l'email
+  // ✅ Envoi de l'email
   await transporter.sendMail({
-    from: process.env.EMAIL_USER,
+    from: "test@example.com", // adresse fictive, MailHog accepte tout
     to,
     subject,
     text,
@@ -20,8 +18,9 @@ export default async function sendMail({ to, subject, text, icsFile }) {
       {
         filename: "rappel_sejour.ics",
         content: icsFile,
-        contentType: "text/calendar"
-      }
-    ]
-  }); 
-} 
+        contentType: "text/calendar",
+      },
+    ],
+  });
+}
+

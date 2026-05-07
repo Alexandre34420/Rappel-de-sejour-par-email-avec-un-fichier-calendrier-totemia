@@ -3,7 +3,9 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import DownloadICSButton from "./DownloadICSButton"; // ✅ ajout du bouton
 
+// ✅ Schéma de validation avec Yup
 const schema = yup
   .object({
     stayName: yup.string().required("Ce champ est obligatoire"),
@@ -11,7 +13,7 @@ const schema = yup
     departureDate: yup.string().required("Ce champ est obligatoire"),
     childName: yup.string().required("Ce champ est obligatoire"),
     email: yup.string().email("Email invalide").required("Ce champ est obligatoire"),
-    stayAddress: yup.string().required("Ce champ est obligatoire")
+    stayAddress: yup.string().required("Ce champ est obligatoire"),
   })
   .required();
 
@@ -21,14 +23,16 @@ export default function FormStay() {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    watch,
+    formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
   });
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
+  // ✅ Soumission du formulaire pour envoi d'email
   const onSubmit = async (data) => {
     setMessage("");
     setLoading(true);
@@ -37,21 +41,23 @@ export default function FormStay() {
       const response = await axios.post(`${apiUrl}/api/send`, data);
 
       console.log("Réponse du backend :", response.data);
-      setMessage("Email envoyé avec succès !");
+      setMessage("✅ Email envoyé avec succès !");
     } catch (err) {
       console.error(err);
-      setMessage("Erreur lors de l'envoi. Vérifie le backend et les variables d'environnement.");
+      setMessage("❌ Erreur lors de l'envoi. Vérifie le backend et les variables d'environnement.");
     } finally {
       setLoading(false);
     }
   };
+
+  // ✅ Récupération des données actuelles du formulaire pour ICS
+  const stayData = watch();
 
   return (
     <div className="container">
       <h1>Rappel de séjour</h1>
 
       <form onSubmit={handleSubmit(onSubmit)} className="form">
-
         {/* Nom du séjour */}
         <label>
           <span className="label-text">Nom du séjour</span>
@@ -95,7 +101,7 @@ export default function FormStay() {
         </label>
 
         <button type="submit" className="btn" disabled={loading}>
-          {loading ? "Envoi..." : "Envoyer"}
+          {loading ? "⏳ Envoi..." : "📧 Envoyer"}
         </button>
       </form>
 
@@ -104,6 +110,9 @@ export default function FormStay() {
           {message}
         </div>
       )}
+
+      {/* ✅ Bouton pour télécharger le fichier ICS */}
+      <DownloadICSButton stayData={stayData} />
     </div>
   );
 }
