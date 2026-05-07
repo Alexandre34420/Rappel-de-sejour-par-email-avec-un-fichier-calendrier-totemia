@@ -1,11 +1,9 @@
-version: "3.9"
-
 services:
   frontend:
     build: ./frontend
     container_name: frontend
     ports:
-      - "3000:80"   # Frontend servi par Nginx
+      - "8080:80"   # externe 8080 → interne 80 (Nginx)
     depends_on:
       - backend
 
@@ -13,7 +11,7 @@ services:
     build: ./backend
     container_name: backend
     ports:
-      - "5000:5000" # Backend Express
+      - "5000:5000" # externe 5000 → interne 5000 (Express)
     environment:
       - PORT=5000
       - EMAIL_HOST=mailhog
@@ -27,3 +25,4 @@ services:
     ports:
       - "8025:8025" # Interface web MailHog
       - "1025:1025" # SMTP
+
