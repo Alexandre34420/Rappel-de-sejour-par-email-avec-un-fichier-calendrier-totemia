@@ -1,4 +1,6 @@
 # Rappel de séjour par email avec un fichier calendrier Totemia
+Les projets que j'ai pu faire pour le site pendant mon stage de 1ère année de Bachelor. 
+Le premier projet est un Rappel de séjour par email avec un fichier calendrier. 
 
 
 
